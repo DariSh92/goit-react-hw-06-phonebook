@@ -23,6 +23,7 @@ export const FilterLabel = styled.label`
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 5px;
-  color: #9643d5;;
+  color: #9643d5;
+  
 `;
 

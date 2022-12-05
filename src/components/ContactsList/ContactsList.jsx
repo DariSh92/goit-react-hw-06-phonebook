@@ -1,11 +1,26 @@
-import { PropTypes } from 'prop-types';
 import { ContactListMarkup, ContactListItem, ContactListHeader, ContactListText, ContactListButton } from 'components/ContactsList/ContactsList.styled';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContactsValue, removeContact } from 'redux/phonebookSlice';
 
-export const ContactsList = ({ requiredCard, deleteCard }) => {
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const { contacts, filter } = useSelector(getContactsValue);
 
+  const getRequiredCard = () => {
+    const normalizedFilter = filter.toLowerCase();
+    
+  return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
+  const deleteCard = contactId => {
+    dispatch(removeContact(contactId));
+  };
+  const neeedCard = getRequiredCard();
     return (
         <ContactListMarkup>
-            {requiredCard.map(({ name, number, id }) => {
+            {neeedCard.map(({ name, number, id }) => {
                 return (
                     <ContactListItem key={id}>
                         <ContactListHeader>{name}</ContactListHeader>
@@ -19,13 +34,13 @@ export const ContactsList = ({ requiredCard, deleteCard }) => {
 };
 
 
-ContactsList.propTypes = {
-  requiredCard: PropTypes.arrayOf(
-    PropTypes.exact({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    })
-  ),
-  deleteCard: PropTypes.func.isRequired,
-};
+// ContactsList.propTypes = {
+//   requiredCard: PropTypes.arrayOf(
+//     PropTypes.exact({
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//       id: PropTypes.string.isRequired,
+//     })
+//   ),
+//   deleteCard: PropTypes.func.isRequired,
+// };
